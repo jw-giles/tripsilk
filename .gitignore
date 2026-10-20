@@ -1,0 +1,11 @@
+build/bin/
+build/windows/installer/tmp/
+frontend/wailsjs/
+tripsilk-selftest.txt
+awall-selftest.txt
+build/lab/out/
+tripsilk-lab.txt
+tripsilk-etw-sample.jsonl
+tripsilk-lab.log
+.local-snapshots
+*.tgz

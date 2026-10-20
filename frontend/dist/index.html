@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'">
+  <title>Tripsilk</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Opening: a spider drops in on its thread, the web draws, then this fades into the app. Click to skip. -->
+  <div id="splash" class="splash" aria-hidden="true">
+    <svg class="splash-art" viewBox="0 0 960 600" preserveAspectRatio="xMidYMid meet">
+      <g class="ts-web">
+        <line class="d1" pathLength="1" x1="480" y1="262" x2="480" y2="92"></line>
+        <line class="d1" pathLength="1" x1="480" y1="262" x2="600" y2="142"></line>
+        <line class="d2" pathLength="1" x1="480" y1="262" x2="650" y2="262"></line>
+        <line class="d2" pathLength="1" x1="480" y1="262" x2="600" y2="382"></line>
+        <line class="d3" pathLength="1" x1="480" y1="262" x2="480" y2="432"></line>
+        <line class="d3" pathLength="1" x1="480" y1="262" x2="360" y2="382"></line>
+        <line class="d4" pathLength="1" x1="480" y1="262" x2="310" y2="262"></line>
+        <line class="d4" pathLength="1" x1="480" y1="262" x2="360" y2="142"></line>
+        <path class="d3" pathLength="1" d="M480 210 Q505 225 517 225 Q517 245 532 262 Q517 279 517 299 Q505 299 480 314 Q455 299 443 299 Q443 279 428 262 Q443 245 443 225 Q455 225 480 210 Z"></path>
+        <path class="d4" pathLength="1" d="M480 160 Q530 190 552 190 Q552 228 582 262 Q552 296 552 334 Q530 334 480 364 Q430 334 408 334 Q408 296 378 262 Q408 228 408 190 Q430 190 480 160 Z"></path>
+      </g>
+      <line class="ts-thread" x1="480" y1="0" x2="480" y2="242"></line>
+      <g class="ts-spider">
+        <ellipse class="fill" cx="480" cy="250" rx="6" ry="5.4"></ellipse>
+        <ellipse class="fill" cx="480" cy="266" rx="8" ry="10"></ellipse>
+        <polyline points="474,246 463,236 457,243"></polyline>
+        <polyline points="473,250 460,247 452,256"></polyline>
+        <polyline points="474,256 462,259 456,270"></polyline>
+        <polyline points="475,262 465,271 462,283"></polyline>
+        <polyline points="486,246 497,236 503,243"></polyline>
+        <polyline points="487,250 500,247 508,256"></polyline>
+        <polyline points="486,256 498,259 504,270"></polyline>
+        <polyline points="485,262 495,271 498,283"></polyline>
+      </g>
+      <text class="ts-name" x="480" y="490" text-anchor="middle">Tripsilk</text>
+      <text class="ts-sub" x="480" y="522" text-anchor="middle">Checking your PC…</text>
+    </svg>
+  </div>
+
+  <header class="top">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 256 256" aria-hidden="true">
+        <rect x="8" y="8" width="240" height="240" rx="56"></rect>
+        <line class="m-thread" x1="128" y1="8" x2="128" y2="96"></line>
+        <g class="m-legs">
+          <polyline points="114,96 84,68 68,86"></polyline><polyline points="142,96 172,68 188,86"></polyline>
+          <polyline points="112,104 72,94 50,118"></polyline><polyline points="144,104 184,94 206,118"></polyline>
+          <polyline points="113,113 76,124 60,154"></polyline><polyline points="143,113 180,124 196,154"></polyline>
+          <polyline points="117,121 90,148 82,184"></polyline><polyline points="139,121 166,148 174,184"></polyline>
+        </g>
+        <ellipse class="m-body" cx="128" cy="105" rx="17" ry="15"></ellipse>
+        <ellipse class="m-body" cx="128" cy="152" rx="26" ry="32"></ellipse>
+      </svg>
+      <span class="wordmark">Tripsilk</span>
+    </div>
+
+    <nav class="nav" aria-label="Sections">
+      <button class="nav-btn" data-page="home" aria-current="page">Home</button>
+      <button class="nav-btn" data-page="programs">Programs</button>
+      <button class="nav-btn" data-page="bait">Trip lines</button>
+      <button class="nav-btn" data-page="activity">Activity <span id="nav-alerts" class="nav-count" hidden></span></button>
+      <button class="nav-btn" data-page="protection">Protection</button>
+      <button class="nav-btn" data-page="settings">Settings</button>
+    </nav>
+
+    <div class="top-actions">
+      <button id="btn-disconnect" class="btn danger-line" title="Cut every program off the internet, if you think you're being attacked right now">Disconnect internet</button>
+      <button id="btn-reconnect" class="btn" hidden>Reconnect internet</button>
+      <button id="btn-quick" class="btn primary">Scan now</button>
+    </div>
+  </header>
+
+  <div id="dryrun-banner" class="banner" hidden>
+    <span>Practice mode is on. Tripsilk records what it would do but doesn't suspend or block anything.</span>
+    <button id="btn-dryrun-off" class="link">Turn off</button>
+  </div>
+
+  <!-- ===== Home ===== -->
+  <main class="page" data-page="home">
+    <section class="hero" id="wall" data-state="loading" role="status" aria-live="polite">
+      <span class="hero-icon" aria-hidden="true"></span>
+      <div class="hero-text">
+        <h1 id="wall-title">Checking your PC…</h1>
+        <p id="wall-detail" class="hero-detail"></p>
+      </div>
+      <div class="hero-side">
+        <button id="btn-ack" class="btn" hidden>I've dealt with this</button>
+        <details class="eyes" id="eyes-wrap">
+          <summary>
+            <span id="eyes" class="eye-grid" aria-hidden="true"></span>
+            <span id="eyes-label">Checking…</span>
+          </summary>
+          <div class="eyes-pop">
+            <p class="hint">Tripsilk's eight eyes are the things it watches. An amber eye is one that's off.</p>
+            <ul id="eyes-list" class="eyes-list"></ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <div class="tiles">
+      <button class="tile" data-go="programs">
+        <span class="tile-label">Programs using AI</span>
+        <span id="tile-ai" class="tile-num">0</span>
+        <span id="tile-ai-sub" class="tile-sub"></span>
+      </button>
+      <button class="tile" data-go="bait">
+        <span class="tile-label">Trip lines</span>
+        <span id="tile-bait" class="tile-num">0</span>
+        <span id="tile-bait-sub" class="tile-sub"></span>
+      </button>
+      <button class="tile" data-go="protection">
+        <span class="tile-label">Microsoft Defender</span>
+        <span id="tile-def" class="tile-num">…</span>
+        <span id="tile-def-sub" class="tile-sub"></span>
+      </button>
+    </div>
+
+    <section class="panel" aria-labelledby="week-h">
+      <div class="panel-head">
+        <h2 id="week-h">Your week</h2>
+        <button class="link" id="week-update">Update</button>
+      </div>
+      <div id="week"><p class="hint">The summary appears a couple of minutes after Tripsilk starts.</p></div>
+    </section>
+
+    <div class="home-row">
+      <section class="panel" aria-labelledby="hweb-h">
+        <div class="panel-head">
+          <h2 id="hweb-h">Who your programs talk to</h2>
+          <button class="link" data-go="programs">Show all</button>
+        </div>
+        <div class="cols-head"><span>On this PC</span><span>On the internet</span></div>
+        <svg id="home-web" class="threads" role="img" aria-label="Programs on this PC and who they talk to"></svg>
+        <p id="home-web-more" class="hint"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="hact-h">
+        <div class="panel-head">
+          <h2 id="hact-h">Recent activity</h2>
+          <button class="link" data-go="activity">See all</button>
+        </div>
+        <ol id="home-alerts" class="alerts"></ol>
+        <p id="home-alerts-empty" class="empty" hidden>Nothing yet. New activity shows up here as it happens.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== Programs ===== -->
+  <main class="page" data-page="programs" hidden>
+    <section class="panel" aria-labelledby="obs-h">
+      <div class="panel-head">
+        <h2 id="obs-h">Who your programs talk to</h2>
+        <p id="obs-counts" class="counts"></p>
+      </div>
+      <div id="chips" class="chips" role="group" aria-label="Show programs of these types"></div>
+      <div id="obs-detail" class="detail" hidden>
+        <div class="detail-main">
+          <p class="detail-name"><span id="obs-name"></span> <span id="obs-chip" class="chip"></span></p>
+          <p id="obs-text" class="detail-text"></p>
+          <ul id="obs-links" class="detail-links" hidden></ul>
+        </div>
+        <div class="detail-actions">
+          <button id="obs-allow" class="btn small" hidden>Allow</button>
+          <button id="obs-addsvc" class="btn small" hidden>Add to rule</button>
+          <button id="obs-lock" class="btn small" hidden>Lock to these services</button>
+          <button id="obs-unlock" class="btn small" hidden>Remove rule</button>
+          <button id="obs-suspend" class="btn small danger" hidden>Suspend</button>
+          <button id="obs-resume" class="btn small" hidden>Resume</button>
+        </div>
+      </div>
+      <div class="cols-head"><span>On this PC</span><span>On the internet</span></div>
+      <svg id="sphere" class="threads" role="img" aria-label="Programs on this PC and who they talk to"></svg>
+      <div class="legend">
+        <span class="key"><span class="ln ok"></span>Approved AI use</span>
+        <span class="key"><span class="ln warn"></span>Not approved yet</span>
+        <span class="key"><span class="ln bad"></span>Needs action</span>
+        <span class="key"><span class="ln held"></span>Suspended by you</span>
+        <span class="key"><span class="ln new"></span>First-time connection</span>
+        <span class="key"><span class="ln idle"></span>Ordinary traffic</span>
+        <span class="key"><span class="key-diamond"></span>AI service</span>
+      </div>
+      <p class="hint"><span id="obs-learning"></span> Click a program or a service for details.</p>
+    </section>
+
+    <div class="grid2">
+      <section class="panel" aria-labelledby="ai-h">
+        <h2 id="ai-h">Programs using AI</h2>
+        <p class="hint">Apps connected to an AI service in the last two minutes, plus AI models running on this PC.</p>
+        <ul id="flows" class="rows"></ul>
+        <p id="flows-empty" class="empty">No AI activity right now.</p>
+        <p id="net-error" class="error" hidden></p>
+        <details id="allowed-wrap" class="sub" hidden>
+          <summary>Apps you've allowed (<span id="allowed-count">0</span>)</summary>
+          <ul id="allowed" class="rows compact"></ul>
+        </details>
+      </section>
+
+      <section class="panel" aria-labelledby="cards-h" id="cards-section" hidden>
+        <h2 id="cards-h">Rules for each AI app</h2>
+        <p class="hint">What each AI app you use may do, in one place. Starting tools or reaching services outside its card raises an alert; places it reaches for the first time are listed here for you to review, without alerts. Lock an app's internet to freeze it when it goes anywhere off its list.</p>
+        <div id="rule-cards" class="rule-cards"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="said-h">
+        <h2 id="said-h">What Claude Code said vs what it did</h2>
+        <p class="hint">The shell commands in Claude Code's session logs, compared with the shells Tripsilk saw it start. A shell that matches nothing it said may be its own housekeeping, or something that steered it outside the conversation.</p>
+        <div id="said"><p class="hint">Compared a few minutes after Tripsilk starts, then every 5 minutes.</p></div>
+      </section>
+
+      <section class="panel" aria-labelledby="agent-h" id="agent-section" hidden>
+        <h2 id="agent-h">AI agent watch</h2>
+        <p class="hint">What AI-connected apps do: the programs they start, tools added to them, and anything new set to run at startup.</p>
+        <ul id="agents" class="rows"></ul>
+        <p id="agents-empty" class="empty">No AI apps active since Tripsilk started.</p>
+        <details id="approvals-wrap" class="sub" hidden>
+          <summary>Programs you've allowed AI apps to start (<span id="approval-count">0</span>)</summary>
+          <ul id="approvals" class="rows compact"></ul>
+        </details>
+        <h3 class="sub-h">AI app tool lists</h3>
+        <ul id="configs" class="rows compact"></ul>
+        <p id="startup-line" class="hint"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="lsn-h">
+        <h2 id="lsn-h">Open to your network</h2>
+        <p class="hint">Programs accepting connections from other machines. A new one raises an alert.</p>
+        <ul id="listeners" class="rows"></ul>
+        <p id="listeners-empty" class="empty">Nothing on this PC is accepting outside connections.</p>
+        <p id="listeners-local" class="hint"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="held-h" id="held-section" hidden>
+        <h2 id="held-h">Contained by you</h2>
+        <ul id="held" class="rows"></ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== Trip lines ===== -->
+  <main class="page narrow" data-page="bait" hidden>
+    <section class="panel" aria-labelledby="bait-h">
+      <h2 id="bait-h">Trip lines</h2>
+      <p class="hint">Files nothing should ever touch, like an old document named to look valuable. If anything changes them, you'll know. Keep them out of OneDrive, Dropbox and other synced folders.</p>
+      <ul id="bait" class="rows"></ul>
+      <div class="row-actions">
+        <button id="btn-add-bait" class="btn primary">Add a trip line file</button>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="chk-read">
+        <span>Also catch programs that only <em>open</em> a trip line file</span>
+      </label>
+      <p class="hint">Turns on Windows file auditing for those files. This changes a system setting.</p>
+    </section>
+  </main>
+
+  <!-- ===== Activity ===== -->
+  <main class="page narrow" data-page="activity" hidden>
+    <section class="panel" aria-labelledby="feed-h">
+      <div class="panel-head">
+        <h2 id="feed-h">Activity</h2>
+        <button id="btn-report" class="btn small" title="Copies a summary you can paste into Claude or another AI to ask what to do. Your user folder is replaced with %USERPROFILE%.">Copy report for an AI helper</button>
+      </div>
+      <ol id="alerts" class="alerts"></ol>
+      <p id="alerts-empty" class="empty" hidden>Nothing yet. New activity shows up here as it happens.</p>
+    </section>
+  </main>
+
+  <!-- ===== Protection ===== -->
+  <main class="page" data-page="protection" hidden>
+    <div class="grid2">
+      <section class="panel" aria-labelledby="def-h">
+        <h2 id="def-h">Microsoft Defender</h2>
+        <dl id="defender" class="facts"></dl>
+        <ul id="def-issues" class="issues"></ul>
+        <label class="toggle">
+          <input type="checkbox" id="chk-cfa">
+          <span>Block ransomware from my folders (Windows folder protection)</span>
+        </label>
+        <p id="cfa-note" class="hint"></p>
+        <div class="row-actions">
+          <button id="btn-full" class="btn">Run full scan</button>
+          <button id="btn-defs" class="btn">Update definitions</button>
+        </div>
+        <details id="threats-wrap" class="sub" hidden>
+          <summary>Recent detections (<span id="threat-count">0</span>)</summary>
+          <ul id="threats" class="rows compact"></ul>
+        </details>
+      </section>
+
+      <section class="panel" aria-labelledby="cov-h">
+        <h2 id="cov-h">What Tripsilk watches</h2>
+        <div class="cov-cols">
+          <div>
+            <h3 class="sub-h">Watching now</h3>
+            <ul id="cov-yes" class="cov yes"></ul>
+          </div>
+          <div>
+            <h3 class="sub-h">Not covered</h3>
+            <ul id="cov-no" class="cov no"></ul>
+          </div>
+        </div>
+        <p class="hint">No security tool catches everything. Keep Windows updated, keep backups, and be careful what you let AI agents read and run.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== Settings ===== -->
+  <main class="page narrow" data-page="settings" hidden>
+    <section class="panel settings" aria-labelledby="set-h">
+      <h2 id="set-h">Settings</h2>
+      <label class="toggle">
+        <input type="checkbox" id="chk-dryrun">
+        <span>Practice mode: record actions without suspending or blocking</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" id="chk-contain">
+        <span>Freeze automatically: when a program touches a trip line or acts like ransomware, freeze it and everything it started, and cut its internet. Off until you've seen a week of alerts; until then Tripsilk notes what it would have done.</span>
+      </label>
+      <p id="practice-record" class="hint"></p>
+      <label class="toggle">
+        <input type="checkbox" id="chk-toasts">
+        <span>Show Windows notifications for important alerts</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" id="chk-signin">
+        <span>Start Tripsilk when I sign in</span>
+      </label>
+      <p id="signin-note" class="hint" hidden>Available in the installed Tripsilk. This copy isn't installed, and Windows would start it as admin from a folder other programs can change.</p>
+      <label class="toggle">
+        <input type="checkbox" id="chk-evlog">
+        <span>Copy alerts to the Windows Event Log (Application log, source Tripsilk), for tools that collect Windows events</span>
+      </label>
+      <p id="evlog-status" class="hint" hidden></p>
+      <h3 class="set-sub">Real-time sensor</h3>
+      <p id="sensor-status" class="hint">Checking…</p>
+      <p id="journal-status" class="hint"></p>
+      <p id="sysmon-status" class="hint"></p>
+      <h3 class="set-sub">Tripsilk's own use</h3>
+      <p id="usage-status" class="hint">Measuring…</p>
+      <p class="hint">Closing this window keeps Tripsilk running in the background. To stop protection completely:</p>
+      <div class="row-actions">
+        <button id="btn-quit" class="btn">Quit Tripsilk</button>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot">Tripsilk runs alongside Microsoft Defender. It doesn't replace it.</p>
+
+  <div id="setup" class="setup" role="dialog" aria-modal="true" aria-labelledby="setup-h" hidden>
+    <div class="setup-card">
+      <p class="setup-step" id="setup-step"></p>
+      <h2 id="setup-h" tabindex="-1"></h2>
+      <div id="setup-body"></div>
+      <div class="row-actions setup-actions">
+        <button id="setup-skip" class="btn ghost">Skip setup</button>
+        <span class="grow"></span>
+        <button id="setup-next" class="btn primary">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="alert" hidden></div>
+  <div id="announcer" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="web.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

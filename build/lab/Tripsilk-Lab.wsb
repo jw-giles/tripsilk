@@ -1,0 +1,22 @@
+<Configuration>
+  <!-- A throwaway Windows Sandbox that installs Tripsilk fresh and runs the
+       lab against it. Double-click this file (Windows Sandbox must be turned
+       on: Windows Features > Windows Sandbox). The report lands in
+       C:\Tripsilk\build\lab\out\tripsilk-lab.txt on your PC. -->
+  <Networking>Enable</Networking>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\Tripsilk\build\bin</HostFolder>
+      <SandboxFolder>C:\lab-bin</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+    <MappedFolder>
+      <HostFolder>C:\Tripsilk\build\lab</HostFolder>
+      <SandboxFolder>C:\lab</SandboxFolder>
+      <ReadOnly>false</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>C:\lab\lab-setup.cmd</Command>
+  </LogonCommand>
+</Configuration>

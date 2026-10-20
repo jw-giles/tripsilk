@@ -1,0 +1,19 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Tripsilk",
+  "outputfilename": "Tripsilk",
+  "frontend:install": "",
+  "frontend:build": "",
+  "frontend:dir": "frontend",
+  "wailsjsdir": "frontend/wailsjs",
+  "author": {
+    "name": "Jacob Giles"
+  },
+  "info": {
+    "companyName": "Jacob Giles",
+    "productName": "Tripsilk",
+    "productVersion": "0.11.0",
+    "copyright": "Copyright 2026 Jacob Giles. Apache License 2.0.",
+    "comments": "Watches for hijacked AI agents and AI-driven malware, alongside Microsoft Defender."
+  }
+}
