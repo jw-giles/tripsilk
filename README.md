@@ -80,13 +80,6 @@ Read this before relying on it.
 
 The dashboard always lists what isn't covered, live, under Protection.
 
-## Upgrading from aWall
-
-Tripsilk was called aWall until 0.10.0. On its first start it copies your
-settings (trip lines, approvals, rules) from `C:\ProgramData\aWall` and leaves
-that folder alone. Firewall rules and the sign-in task aWall created are still
-recognized, and are removed when you unblock or toggle them.
-
 ## Everything it does
 
 Defender keeps doing virus detection. Tripsilk adds:
