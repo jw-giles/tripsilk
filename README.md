@@ -411,12 +411,11 @@ Done in a Linux build environment:
 the Windows structure sizes checked against the SDK; it has not run on
 Windows yet. The self-test's sensor checks are the real test.
 
-On Windows 11 (build 26200): the self-test passed 39/39 (read detection
-skipped) and the lab caught 4 of 4 steps that ran, on 0.11.0 on October 17,
-before the fixes from that day's code review. Those fixes are unit-tested
-but haven't run on Windows yet; `RELEASE.md` tracks that.
-`update.bat test -audit` adds the read-auditing checks, including that
-removing an audit rule stops the events (last passed 29/29 on 0.8.0).
+On Windows 11 (build 26200), October 20, with the fixes from the October 17
+code review: `update.bat test -audit` passed 42 checks, 0 failed (Sysmon
+skipped, not installed), including read detection and that removing an
+audit rule stops the events. The attack lab's last full run (4 of 4 caught)
+predates those fixes; `RELEASE.md` tracks the rerun.
 The self-test doesn't cover the ransomware shield firing on a real burst,
 Disconnect/Reconnect, or End program; those need a deliberate manual run.
 

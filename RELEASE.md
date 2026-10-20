@@ -10,8 +10,8 @@ week 4 of the work schedule.
       times. (Oct 17, before the review fixes: 4 of 4 caught; the Telegram
       step was skipped by the half-hour alert cooldown. Rerun on the current
       build at least 30 minutes after the last lab run.)
-- [ ] `update.bat test -audit`: read detection has only been skipped since
-      0.8.0.
+- [x] `update.bat test -audit`: 42 passed, 0 failed, Sysmon skipped
+      (Oct 20, current build, read detection included).
 - [ ] A week of normal use with practice mode on, and the "would have
       frozen" notes reviewed: zero that would have frozen real work.
 - [ ] Fresh Windows Sandbox: `build\lab\Tripsilk-Lab.wsb` installs, runs
